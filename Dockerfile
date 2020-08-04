@@ -10,4 +10,5 @@ EXPOSE 8080
 
 ENV GOOGLE_APPLICATION_CREDENTIALS=/app/keys/service_account.json
 
-CMD gunicorn -b 0.0.0.0:8080 main:app
+# CMD gunicorn -b 0.0.0.0:8080 main:app
+CMD python main.py
