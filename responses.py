@@ -11,7 +11,7 @@ ADDED_TO_DM_TEXT = '''Thanks for adding me to a DM, {}!'''
 
 ADDED_TO_ROOM_TEXT = '''Thanks for adding me to {}, {}!'''
 
-UNKNOWN_SITUATION_TEXT = '''You are not supposed to see this message.😰 This probably means this bot has ran into errors.
+UNKNOWN_SITUATION_TEXT = '''You are not supposed to be able to see this message.😰 This probably means this bot has ran into errors.
 Please kindly report this situation to our developers, thank you so much!'''
 
 EXECUTION_ERROR_TEXT = """Sorry, error occurred when trying to execute the command."""

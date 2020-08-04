@@ -51,14 +51,3 @@ def remove_by_name(space, name):
     subscription_id = next_item.key
     client.delete(subscription_id)
     return subscription_id
-
-
-if __name__ == "__main__":
-    import datetime
-    create(
-        space="spaces/i2uCdgAAAAE",
-        feed="https://www.reddit.com/r/news/.rss",
-        name="Reddit News",
-        creator="orix.auyeung@hkmci.com",
-        timestamp=str(datetime.datetime.now())
-    )
