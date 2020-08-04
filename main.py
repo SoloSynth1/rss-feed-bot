@@ -1,5 +1,3 @@
-import logging
-
 import google.auth
 from googleapiclient.discovery import build
 from flask import Flask, request, json
@@ -28,17 +26,17 @@ def home_post():
 
     try:
         if event_type == 'REMOVED_FROM_SPACE':
-            logging.info("event is REMOVED_FROM_SPACE")
+            print("event is REMOVED_FROM_SPACE")
             subscriptions.delete_all(event_data['space']['name'])
             return json.jsonify({})     # no need to respond
 
         elif event_type == 'ADDED_TO_SPACE':
-            logging.info("event is ADDED_TO_SPACE")
+            print("event is ADDED_TO_SPACE")
             resp = responses.welcome(event_data)
 
         elif event_type == 'MESSAGE':
-            logging.info("event is MESSAGE")
-            logging.info("message: {}".format(event_data['message']))
+            print("event is MESSAGE")
+            print("message: {}".format(event_data['message']))
             if 'text' in event_data['message']:
                 resp = parse_command(event_data)
 
@@ -53,33 +51,36 @@ def home_post():
 
 
 def parse_command(event_data):
-    resp = {}
-    message = event_data['message']
-    logging.info(message)
-    command, arguments = message['argumentText'].strip(" ").split(" ", 1)  # check first word
-    logging.info(command, arguments)
-    space = event_data['space']['name']
+    try:
+        resp = {}
+        message = event_data['message']
+        print(message)
+        parts = message['argumentText'].strip().split(" ", 1)  # check first word
+        print(parts)
+        space = event_data['space']['name']
 
-    command = command.lower()
-    if command == "add":
-        url, name = arguments.split(" ", 1)
-        url = url.lower()
-        creator = event_data['user']['email']
-        timestamp = event_data['eventTime']
-        subscription_id = subscriptions.create(space, url, name, creator, timestamp)
-        if subscription_id:
-            resp = responses.subscription_created(event_data, name)
-    elif command == "list":
-        items = subscriptions.list_all(space)
-        resp = responses.subscription_list(event_data, items)
-    elif command == "remove":
-        name = arguments.strip(" ")
-        subscription_id = subscriptions.remove_by_name(space, name)
-        if subscription_id:
-            resp = responses.subscription_removed(event_data, name)
-        else:
-            resp = responses.subscription_name_not_found(event_data, name)
-    return resp
+        command = parts[0].lower()
+        if command == "add":
+            url, name = parts[1].split(" ", 1)
+            url = url.lower()
+            creator = event_data['user']['email']
+            timestamp = event_data['eventTime']
+            subscription_id = subscriptions.create(space, url, name, creator, timestamp)
+            if subscription_id:
+                resp = responses.subscription_created(event_data, name)
+        elif command == "list":
+            items = subscriptions.list_all(space)
+            resp = responses.subscription_list(event_data, items)
+        elif command == "remove":
+            name = parts[1].strip(" ")
+            subscription_id = subscriptions.remove_by_name(space, name)
+            if subscription_id:
+                resp = responses.subscription_removed(event_data, name)
+            else:
+                resp = responses.subscription_name_not_found(event_data, name)
+        return resp
+    except:
+        return {}
 
 
 if __name__ == '__main__':
