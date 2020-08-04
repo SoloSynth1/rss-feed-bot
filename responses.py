@@ -1,15 +1,16 @@
-HELP_TEXT = '''The current supported commands are:
-add: subscribe a RSS feed in this room. Type in "@{bot-name} add {rss-feed} {name}",for example, "@Bot add https://www.reddit.com/r/news/.rss Reddit News".
-list: list all active subscriptions in this room. Type in "@{bot-name} list".
-remove: remove a subscription in this room. Type in "@{bot-name} remove {name}",for example, "@Bot remove Reddit News"'''
+HELP_TEXT = '''
+The current supported commands are:
+`add`: subscribe a RSS feed. Type in `@{bot-name} add {rss-feed} {name}`,for example, `@Bot add https://www.reddit.com/r/news/.rss Reddit News`.
+`list`: list active subscriptions. Type in `@{bot-name} list`.
+`remove`: remove subscription. Type in `@{bot-name} remove {name}` ,for example, `@Bot remove Reddit News`.'''
 
 WELCOME_TEXT = '''I am RSS Feed Bot. Give me a RSS feed URL, and I will push the feed to this conversation!'''
 
 DO_NOT_UNDERSTNAD_TEXT = "Sorry, I do not understand what are you saying."
 
-ADDED_TO_DM_TEXT = '''Thanks for adding me to a DM, {}!'''
+ADDED_TO_DM_TEXT = '''Thanks for adding me to a DM, {}!👋'''
 
-ADDED_TO_ROOM_TEXT = '''Thanks for adding me to {}, {}!'''
+ADDED_TO_ROOM_TEXT = '''Thanks for adding me to {}, {}!👋'''
 
 UNKNOWN_SITUATION_TEXT = '''You are not supposed to be able to see this message.😰 This probably means this bot has ran into errors.
 Please kindly report this situation to our developers, thank you so much!'''
