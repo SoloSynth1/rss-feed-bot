@@ -30,7 +30,7 @@ def create(space, feed, name, creator, timestamp):
     subscription['creator'] = creator
     subscription['timestamp'] = timestamp
     client.put(subscription)
-
+    return subscription_key
 
 def list_all(space):
     subscriptions = _get_all_subscription_in_room(space)

@@ -1,12 +1,12 @@
 HELP_TEXT = '''
-The current supported commands are:
-`add`: subscribe a RSS feed. Type in `@{bot-name} add {rss-feed} {name}`, for example, `@Bot add https://www.reddit.com/r/news/.rss Reddit News`.
-`list`: list active subscriptions. Type in `@{bot-name} list`.
-`remove`: remove subscription. Type in `@{bot-name} remove {name}` ,for example, `@Bot remove Reddit News`.'''
+Currently supported commands are:
+`add`: Subscribe a RSS feed. Type in `@{bot-name} add {rss-feed} {name}`, for example, `@Bot add https://www.reddit.com/r/news/.rss Reddit News`.
+`list`: List active subscriptions. Type in `@{bot-name} list`.
+`remove`: Remove subscription. Type in `@{bot-name} remove {name}` ,for example, `@Bot remove Reddit News`.'''
 
 WELCOME_TEXT = '''I am RSS Feed Bot. Give me a RSS feed URL, and I will push the feed to this conversation!'''
 
-DO_NOT_UNDERSTNAD_TEXT = "Sorry, I do not understand what are you saying."
+DO_NOT_UNDERSTNAD_TEXT = "Sorry, I do not understand what you are saying."
 
 ADDED_TO_DM_TEXT = '''Thanks for adding me to a DM, {}!👋'''
 
@@ -22,11 +22,11 @@ SUBSCRIPTION_CREATION_TEXT = '''Subscription "{}" created.'''
 
 SUBSCRIPTION_REMOVAL_TEXT = '''Subscription "{}" removed.'''
 
-SUBSCRIPTION_LIST_TEXT = """The current """
+SUBSCRIPTION_LIST_TEXT = """Here are the active subscriptions:"""
 
 SUBSCRIPTION_NO_ITEM_TEXT = """This conversation currently does not have any subscriptions."""
 
-SUBSCRIPTION_ITEM_TEXT = '"{}" - {}, created by {} at {}'
+SUBSCRIPTION_ITEM_TEXT = 'Item #{}. "{}"({}), created by {} at {}'
 
 SUBSCRIPTION_NAME_NOT_FOUND_TEXT = '''Sorry, I cannot find a subscription named "{}" in this conversation.'''
 
@@ -93,8 +93,8 @@ def subscription_name_not_found(event_data, name):
 
 def subscription_list(event_data, subscriptions):
     if subscriptions:
-        items = [SUBSCRIPTION_ITEM_TEXT.format(subscription['name'], subscription['feed'], subscription['creator'],
-                                               subscription['timestamp']) for subscription in subscriptions]
+        items = [SUBSCRIPTION_ITEM_TEXT.format(i+1, subscription['name'], subscription['feed'], subscription['creator'],
+                                               subscription['timestamp']) for i, subscription in enumerate(subscriptions)]
         response = {
             "text": "\n".join([SUBSCRIPTION_LIST_TEXT]+items),
             "thread": get_thread_id(event_data)

@@ -65,16 +65,16 @@ def parse_command(event_data):
             url = url.lower()
             creator = event_data['user']['email']
             timestamp = event_data['eventTime']
-            subscription_id = subscriptions.create(space, url, name, creator, timestamp)
-            if subscription_id:
+            key = subscriptions.create(space, url, name, creator, timestamp)
+            if key:
                 resp = responses.subscription_created(event_data, name)
         elif command == "list":
             items = subscriptions.list_all(space)
             resp = responses.subscription_list(event_data, items)
         elif command == "remove":
             name = parts[1].strip(" ")
-            subscription_id = subscriptions.remove_by_name(space, name)
-            if subscription_id:
+            key = subscriptions.remove_by_name(space, name)
+            if key:
                 resp = responses.subscription_removed(event_data, name)
             else:
                 resp = responses.subscription_name_not_found(event_data, name)
