@@ -1,6 +1,6 @@
 HELP_TEXT = '''
 The current supported commands are:
-`add`: subscribe a RSS feed. Type in `@{bot-name} add {rss-feed} {name}`,for example, `@Bot add https://www.reddit.com/r/news/.rss Reddit News`.
+`add`: subscribe a RSS feed. Type in `@{bot-name} add {rss-feed} {name}`, for example, `@Bot add https://www.reddit.com/r/news/.rss Reddit News`.
 `list`: list active subscriptions. Type in `@{bot-name} list`.
 `remove`: remove subscription. Type in `@{bot-name} remove {name}` ,for example, `@Bot remove Reddit News`.'''
 
@@ -15,7 +15,8 @@ ADDED_TO_ROOM_TEXT = '''Thanks for adding me to {}, {}!👋'''
 UNKNOWN_SITUATION_TEXT = '''You are not supposed to be able to see this message.😰 This probably means this bot has ran into errors.
 Please kindly report this situation to our developers, thank you so much!'''
 
-EXECUTION_ERROR_TEXT = """Sorry, error occurred when trying to execute the command."""
+EXECUTION_ERROR_TEXT = """Sorry, error occurred when trying to execute the command.
+Please kindly report this situation to our developers, thank you so much!"""
 
 SUBSCRIPTION_CREATION_TEXT = '''Subscription "{}" created.'''
 
@@ -58,9 +59,9 @@ def welcome(event_data):
     return response
 
 
-def error(event_data, error_details):
+def error(event_data):
     response = {
-        "text": "\n".join([EXECUTION_ERROR_TEXT, error_details]),
+        "text": EXECUTION_ERROR_TEXT,
         "thread": get_thread_id(event_data)
     }
     return response

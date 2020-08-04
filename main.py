@@ -1,4 +1,4 @@
-# import logging
+import logging
 
 import google.auth
 from googleapiclient.discovery import build
@@ -28,12 +28,17 @@ def home_post():
 
     try:
         if event_type == 'REMOVED_FROM_SPACE':
+            logging.info("event is REMOVED_FROM_SPACE")
             subscriptions.delete_all(event_data['space']['name'])
+            return json.jsonify({})     # no need to respond
 
         elif event_type == 'ADDED_TO_SPACE':
+            logging.info("event is ADDED_TO_SPACE")
             resp = responses.welcome(event_data)
 
         elif event_type == 'MESSAGE':
+            logging.info("event is MESSAGE")
+            logging.info("message: {}".format(event_data['message']))
             if 'text' in event_data['message']:
                 resp = parse_command(event_data)
 
@@ -42,7 +47,7 @@ def home_post():
             resp = responses.unknown_command(event_data)
 
     except Exception as e:
-        resp = responses.error(event_data, str(e))
+        resp = responses.error(event_data)
 
     return json.jsonify(resp)
 
@@ -50,7 +55,9 @@ def home_post():
 def parse_command(event_data):
     resp = {}
     message = event_data['message']
-    command, arguments = message['argumentText'].lstrip().split(" ", 1)  # check first word
+    logging.info(message)
+    command, arguments = message['argumentText'].strip(" ").split(" ", 1)  # check first word
+    logging.info(command, arguments)
     space = event_data['space']['name']
 
     command = command.lower()
