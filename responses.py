@@ -53,7 +53,6 @@ def welcome(event_data):
         thankyou_text = UNKNOWN_SITUATION_TEXT
     response = {
         "text": "\n".join([thankyou_text, WELCOME_TEXT, HELP_TEXT]),
-        "thread": get_thread_id(event_data)
     }
     return response
 
