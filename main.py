@@ -26,17 +26,13 @@ def home_post():
 
     try:
         if event_type == 'REMOVED_FROM_SPACE':
-            print("event is REMOVED_FROM_SPACE")
             subscriptions.delete_all(event_data['space']['name'])
             return json.jsonify({})     # no need to respond
 
         elif event_type == 'ADDED_TO_SPACE':
-            print("event is ADDED_TO_SPACE")
             resp = responses.welcome(event_data)
 
         elif event_type == 'MESSAGE':
-            print("event is MESSAGE")
-            print("message: {}".format(event_data['message']))
             if 'text' in event_data['message']:
                 resp = parse_command(event_data)
 
@@ -54,9 +50,7 @@ def parse_command(event_data):
     try:
         resp = {}
         message = event_data['message']
-        print(message)
         parts = message['argumentText'].strip().split(" ", 1)  # check first word
-        print(parts)
         space = event_data['space']['name']
 
         command = parts[0].lower()
@@ -79,7 +73,7 @@ def parse_command(event_data):
             else:
                 resp = responses.subscription_name_not_found(event_data, name)
         return resp
-    except:
+    except Exception as e:
         return {}
 
 
