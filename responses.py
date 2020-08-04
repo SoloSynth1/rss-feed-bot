@@ -92,8 +92,8 @@ def subscription_name_not_found(event_data, name):
 
 def subscription_list(event_data, subscriptions):
     if subscriptions:
-        items = [SUBSCRIPTION_ITEM_TEXT.format(subscription.name, subscription.feed, subscription.creator,
-                                               subscription.timestamp) for subscription in subscriptions]
+        items = [SUBSCRIPTION_ITEM_TEXT.format(subscription['name'], subscription['feed'], subscription['creator'],
+                                               subscription['timestamp']) for subscription in subscriptions]
         response = {
             "text": "\n".join([SUBSCRIPTION_LIST_TEXT]+items),
             "thread": get_thread_id(event_data)

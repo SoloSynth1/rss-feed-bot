@@ -10,7 +10,7 @@ kind = 'feedSubscriptions'
 def _get_all_subscription_in_room(space):
     query = client.query(kind=kind)
     query.add_filter('space', '=', space)
-    return query.fetch()
+    return list(query.fetch())
 
 
 def _standardize_feed_uri(feed_uri):
@@ -33,21 +33,20 @@ def create(space, feed, name, creator, timestamp):
 
 
 def list_all(space):
-    subscriptions = list(_get_all_subscription_in_room(space))
+    subscriptions = _get_all_subscription_in_room(space)
     return subscriptions
 
 
 def delete_all(space):
-    next_subscription = _get_all_subscription_in_room(space)
-    while next_subscription:
-        client.delete(next_subscription.key)
+    subscriptions = _get_all_subscription_in_room(space)
+    client.delete_multi([subscription.key for subscription in subscriptions])
 
 
 def remove_by_name(space, name):
     query = client.query(kind=kind)
     query.add_filter('space', '=', space)
     query.add_filter('name', "=", name)
-    next_item = query.fetch()
-    subscription_id = next_item.key
-    client.delete(subscription_id)
-    return subscription_id
+    first_item = list(query.fetch())[0]
+    key = first_item.key
+    client.delete(key)
+    return key
