@@ -56,12 +56,15 @@ def parse_command(event_data):
         command = parts[0].lower()
         if command == "add":
             url, name = parts[1].split(" ", 1)
-            url = url.lower()
-            creator = event_data['user']['email']
-            timestamp = event_data['eventTime']
-            key = subscriptions.create(space, url, name, creator, timestamp)
-            if key:
-                resp = responses.subscription_created(event_data, name)
+            if url.startswith("https://") or url.startswith("http://"):
+                url = url.lower()
+                creator = event_data['user']['email']
+                timestamp = event_data['eventTime']
+                key = subscriptions.create(space, url, name, creator, timestamp)
+                if key:
+                    resp = responses.subscription_created(event_data, name)
+            else:
+                resp = responses.url_is_invalid(event_data, url)
         elif command == "list":
             items = subscriptions.list_all(space)
             resp = responses.subscription_list(event_data, items)

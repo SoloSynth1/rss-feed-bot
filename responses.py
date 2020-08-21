@@ -30,6 +30,9 @@ SUBSCRIPTION_ITEM_TEXT = 'Item #{}. "{}"({}), created by {} at {}'
 
 SUBSCRIPTION_NAME_NOT_FOUND_TEXT = '''Sorry, I cannot find a subscription named "{}" in this conversation.'''
 
+URL_IS_WITHOUT_PROTOCOL_TEXT = '''Sorry, it seems that {} is not a valid URL.
+Please remember to include `https://` or `http://` in the URL.'''
+
 
 def get_thread_id(event_data):
     return event_data['message']['thread']
@@ -104,4 +107,12 @@ def subscription_list(event_data, subscriptions):
             "text": SUBSCRIPTION_NO_ITEM_TEXT,
             "thread": get_thread_id(event_data)
         }
+    return response
+
+
+def url_is_invalid(event_data, url):
+    response = {
+        "text": URL_IS_WITHOUT_PROTOCOL_TEXT.format(url),
+        "thread": get_thread_id(event_data)
+    }
     return response
